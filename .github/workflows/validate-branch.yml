@@ -1,0 +1,22 @@
+name: Validate Source Branch
+
+on:
+  pull_request:
+    branches:
+      - micro-services
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate branch naming
+        run: |
+          BRANCH="${{ github.head_ref }}"
+
+          if [[ "$BRANCH" =~ ^service/[a-z0-9-]+-service$ ]]; then
+            echo "Valid branch"
+          else
+            echo "ERROR: Branch must match service/<name>-service"
+            exit 1
+          fi
