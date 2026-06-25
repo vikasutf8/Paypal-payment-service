@@ -1,7 +1,14 @@
 spring:
   application:
     name: globalConfig
-
+  profiles:
+    active: native # Tells Config Server to read from local filesystem, NOT Git
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/user_service_config # Where your yml files are
 
 server:
-  port: 8888
+  port: 8888 # Default port for Spring Cloud Config Server
+

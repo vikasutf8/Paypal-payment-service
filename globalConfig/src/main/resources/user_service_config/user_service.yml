@@ -1,0 +1,3 @@
+app:
+  name: PayFlow User Service
+  description: Base configuration for User Service

@@ -1,12 +1,13 @@
 spring:
   application:
     name: user_service
-
-
+  profiles:
+    active: dev # Change this to: dev, qa, or prod
   config:
-    import=optional:configserver:http://localhost:8888:
+    import: optional:configserver:http://localhost:8888
 
 
 
 server:
   port: 8082
+
