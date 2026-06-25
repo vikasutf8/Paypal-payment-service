@@ -13,9 +13,9 @@
 
     <!-- These are the modules we will create -->
     <modules>
-<!--        <module>globalConfig_service</module>-->
-<!--        <module>common_service</module>-->
-<!--        <module>user_service</module>-->
+        <module>globalConfig</module>
+        <module>common_service</module>
+        <module>user_service</module>
     </modules>
 
     <!-- Lock versions so all child modules use the exact same versions -->

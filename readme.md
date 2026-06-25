@@ -1,15 +1,15 @@
-STEP 1:
+### STEP 1:
 - To set this up correctly, you need a Parent POM that holds all your modules together, and then each microservice gets its own Child POM.
 - Paste this code into it. This is your Parent POM. Notice the <packaging>pom</packaging> — this tells Maven "I am not a runnable app, I am just a container for other modules."
 
 
-STEP 2: PORT SETUP
+### STEP 2: PORT SETUP
 
 - globalConfig 8888
 - user_service 8082
 
 
-STEP 3 : ymal global setup
+### STEP 3 : ymal global setup
 - We will tell the Config Server to look for configuration files in a local folder called config-repo inside its resources.
 
   1. Create the config files:
@@ -74,3 +74,28 @@ STEP 3 : ymal global setup
   "appName": "PayFlow User Service"
 }
 ```
+
+### STEP 4 :
+- The Workflow (How to refresh without restarting)
+Now, here is what your actual workflow looks like when you want to change a configuration while the system is running:
+
+Start globalConfig (Port 8888).
+Start user_service (Port 8081). It reads environment.name: DEVELOPMENT from the server.
+Go to http://localhost:8081/config -> You see Environment: DEVELOPMENT.
+Make a change: Go to your IDE, open globalConfig/src/main/resources/config-repo/user_service-dev.yml, and change the value:
+yaml
+
+environment:
+name: DEVELOPMENT_UPDATED
+(Note: Because globalConfig uses the native profile, it reads from the classpath. You might need to restart globalConfig for it to see the file change if you are editing the file directly in the IDE. In production, this is a Git repo, so the Config Server detects Git pushes automatically).
+Trigger the Refresh: Open a terminal (or Postman) and send an empty POST request to the CLIENT (user_service):
+bash
+
+curl -X POST http://localhost:8081/actuator/refresh
+See the magic: Go back to http://localhost:8081/config -> You will now see Environment: DEVELOPMENT_UPDATED.
+user_service did not restart, but its configuration updated!
+
+Summary for your current level:
+Server (globalConfig): Just holds the files. (Later, when connected to Git, it auto-updates when you push to Git).
+Client (user_service): Holds the /actuator/refresh endpoint. You call this endpoint to tell the client "Go ask the Server for new values."
+Later (Kafka/Bus): You will call /actuator/busrefresh on any service, and Kafka will broadcast a message to all services to refresh themselves. No more manual curl commands!

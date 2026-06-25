@@ -7,6 +7,13 @@ spring:
     import: optional:configserver:http://localhost:8888
 
 
+# Add this section to expose the refresh button:
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health
+
 
 server:
   port: 8082

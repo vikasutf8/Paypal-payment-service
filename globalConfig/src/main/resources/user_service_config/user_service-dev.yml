@@ -12,3 +12,4 @@ spring:
 
 environment:
   name: DEVELOPMENT
+
