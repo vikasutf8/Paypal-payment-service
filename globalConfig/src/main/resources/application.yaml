@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: globalConfig
+
+
+server:
+  port: 8888
