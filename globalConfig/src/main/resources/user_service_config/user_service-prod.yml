@@ -1,0 +1,14 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://prod-db-url:5432/payflow_user_prod
+    username: admin_user
+    password: super_secret_prod_password
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+environment:
+  name: PRODUCTION
