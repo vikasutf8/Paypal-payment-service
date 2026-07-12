@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    redis:
+      host: prod-redis-cluster.payflow.internal # PROD URL
+      port: 6379
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user_service_route
+              uri: lb://USER-SERVICE # PROD URL (Load balanced via Eureka)

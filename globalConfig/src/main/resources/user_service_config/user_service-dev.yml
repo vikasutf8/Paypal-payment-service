@@ -13,3 +13,14 @@ spring:
 environment:
   name: DEVELOPMENT
 
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # 100% trace sampling (lower to 0.1 in prod)
+  otlp:
+    tracing:
+      endpoint: http://localhost:4317/v1/traces # Sends data to OTel Collector
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus, metrics

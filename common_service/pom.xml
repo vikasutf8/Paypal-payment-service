@@ -35,6 +35,34 @@
             <version>1.5.5.Final</version>
         </dependency>
 
+        <!-- ========================================== -->
+        <!-- CENTRALIZED OBSERVABILITY DEPENDENCIES     -->
+        <!-- ========================================== -->
+
+        <!-- 1. Actuator: Exposes endpoints -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- 2. Micrometer Bridge: Connects Spring Boot to OpenTelemetry -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-otel</artifactId>
+        </dependency>
+
+        <!-- 3. OTLP Exporter: Sends traces to the OTel Collector -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-otlp</artifactId>
+        </dependency>
+
+        <!-- 4. Prometheus Registry: Formats metrics for Prometheus -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

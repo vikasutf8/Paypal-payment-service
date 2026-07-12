@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  # 1. OpenTelemetry Collector (Receives data from Spring Boot, forwards to backends)
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317" # OTLP gRPC receiver (Spring Boot sends here)
+      - "8889:8889" # Prometheus exporter
+
+  # 2. Zipkin (Trace Visualization)
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    ports:
+      - "9411:9411" # Zipkin UI
+
+  # 3. Prometheus (Metrics Scraping)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090" # Prometheus UI

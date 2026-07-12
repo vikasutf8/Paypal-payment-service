@@ -7,7 +7,8 @@ spring:
     config:
       server:
         native:
-          search-locations: classpath:/user_service_config # Where your yml files are
+          # Comma-separated list of all your service config folders
+          search-locations: classpath:/user_service_config, classpath:/apiGateway_service_config
 
 server:
   port: 8888 # Default port for Spring Cloud Config Server

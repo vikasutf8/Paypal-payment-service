@@ -98,4 +98,16 @@ user_service did not restart, but its configuration updated!
 Summary for your current level:
 Server (globalConfig): Just holds the files. (Later, when connected to Git, it auto-updates when you push to Git).
 Client (user_service): Holds the /actuator/refresh endpoint. You call this endpoint to tell the client "Go ask the Server for new values."
-Later (Kafka/Bus): You will call /actuator/busrefresh on any service, and Kafka will broadcast a message to all services to refresh themselves. No more manual curl commands!
+Later 
+
+(Kafka/Bus): You will call /actuator/busrefresh on any service, and Kafka will broadcast a message to all services to refresh themselves. No more manual curl commands!
+
+
+ 
+# STEP :5  ApiGateway Service
+1.  added config in global service for api gateway
+2. in ApiGateway using ...Redis for rate limmitor
+3. circuit breaker using Resilience4j  ,added fallback controller in user_service
+
+# step6 : Distruted Tracing  and logging 
+-  trace each request until its return to response, with Micrometer, Opentemlmentory , Grafana over zipkin and Prometheus.

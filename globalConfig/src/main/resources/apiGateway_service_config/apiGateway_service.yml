@@ -1,0 +1,53 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user_service_route
+              # URI is defined in environment files!
+              predicates:
+                - Path=/api/users/**
+              filters:
+                - StripPrefix=1
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
+                    key-resolver: "#{@userKeyResolver}"
+                - name: CircuitBreaker
+                  args:
+                    name: userServiceCB
+                    fallbackUri: forward:/fallback/userService
+
+# Resilience4j config is the same everywhere
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0 # 100% trace sampling (lower to 0.1 in prod)
+  otlp:
+    tracing:
+      endpoint: http://localhost:4317/v1/traces # Sends data to OTel Collector
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus, metrics
+
+
+
+#        # Application name is crucial for identifying the service in Zipkin
+#        spring:
+#          application:
+#            name: ${SPRING_APPLICATION_NAME:default-service}
+
+        # Management endpoints for Tracing and Metrics
+        management:
